@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OppAmountNotGreaterTahn1000</fullName>
+    <active>false</active>
+    <errorConditionFormula>Amount &gt; 1000</errorConditionFormula>
+    <errorDisplayField>Amount</errorDisplayField>
+    <errorMessage>Amount not greater than 1000</errorMessage>
+</ValidationRule>

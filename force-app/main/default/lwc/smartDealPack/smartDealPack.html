@@ -1,0 +1,186 @@
+<template>
+    <lightning-card title="Smart Deal Pack">
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        <lightning-button
+            label="Refresh External Pricing & Stock"
+            icon-name="utility:refresh"
+            onclick={handleRefreshPricing}
+            class="slds-m-left_small">
+        </lightning-button>
+
+        <div class="slds-p-around_medium slds-border_bottom">
+            <p><b>{opportunity.Name}</b></p>
+            <p>Stage: {opportunity.StageName}</p>
+            <p>Amount: {opportunity.Amount}</p>
+            <p>Deal Health Score: {dealHealthScore}</p>
+        </div>
+
+        <div class="slds-m-vertical_small">
+            <lightning-datatable
+                key-field="Id"
+                data={lineItems}
+                columns={columns}
+                draft-values={draftValues}
+                onsave={handleInlineSave}
+                hide-checkbox-column>
+            </lightning-datatable>
+        </div>
+
+        <template if:true={hasRows}>
+            <div class="slds-p-around_medium">
+                <template for:each={rows} for:item="row" for:index="index">
+                    <div key={row.id} class="slds-grid slds-gutters slds-m-bottom_small slds-grid_vertical-align-center">
+                        
+                        <div class="slds-col slds-size_3-of-12">
+                            <lightning-record-picker
+                                label="Product"
+                                variant="label-hidden"
+                                placeholder="Search Product..."
+                                object-api-name="Product2"
+                                name="productId"
+                                value={row.productId}
+                                data-index={index}
+                                onchange={handleInputChange}>
+                            </lightning-record-picker>
+                        </div>
+                        
+                        <div class="slds-col slds-size_1-of-12">
+                            <lightning-input 
+                                type="number" 
+                                variant="label-hidden" 
+                                placeholder="Qty" 
+                                name="quantity"
+                                data-index={index}
+                                value={row.quantity}
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+                        
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input 
+                                type="number" 
+                                formatter="currency" 
+                                variant="label-hidden" 
+                                placeholder="Price" 
+                                name="unitPrice"
+                                data-index={index}
+                                value={row.unitPrice}
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+                        
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input 
+                                type="number" 
+                                variant="label-hidden" 
+                                placeholder="Disc %" 
+                                name="discount"
+                                data-index={index}
+                                value={row.discount}
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning-input 
+                                type="number" 
+                                formatter="currency" 
+                                variant="label-hidden" 
+                                placeholder="Ext. Price" 
+                                name="externalPrice"
+                                data-index={index}
+                                value={row.externalPrice}
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-12 slds-text-align_center">
+                            <lightning-input 
+                                type="checkbox" 
+                                variant="label-hidden" 
+                                name="inStock"
+                                data-index={index}
+                                checked={row.inStock}
+                                onchange={handleInputChange}>
+                            </lightning-input>
+                        </div>
+
+                        <div class="slds-col slds-size_1-of-12">
+                            <lightning-button-icon 
+                                icon-name="utility:delete" 
+                                variant="bare" 
+                                onclick={handleRemoveRow} 
+                                data-index={index}>
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+
+        <div class="slds-m-top_medium slds-p-around_medium">
+            <lightning-button 
+                label="Add Row" 
+                icon-name="utility:add" 
+                onclick={handleAddRow} 
+                variant="neutral"
+                class="slds-m-right_x-small">
+            </lightning-button>
+
+            <template if:true={isSaveProducts}>
+                <lightning-button 
+                    label="Save Products" 
+                    icon-name="utility:save" 
+                    onclick={handleSave} 
+                    variant="brand">
+                </lightning-button>
+            </template>
+        </div>
+    <lightning-tabset variant="scoped">
+        <!-- Leads & Contacts Tab -->
+        <lightning-tab label="Leads & Contacts" onactive={handleTabActive} data-id="Contact">
+            <div style="height: 200px;">
+                <lightning-datatable
+                    data-id="Contact"
+                    key-field="Id"
+                    data={relatedRecords}
+                    columns={contactColumns}
+                    enable-infinite-loading
+                    onloadmore={loadMoreData}>
+                </lightning-datatable>
+            </div>
+        </lightning-tab>
+
+        <!-- Service Cases Tab -->
+        <lightning-tab label="Service Cases" onactive={handleTabActive} data-id="Case">
+            <div style="height: 200px;">
+                <lightning-datatable
+                    data-id="Case"
+                    key-field="Id"
+                    data={relatedRecords}
+                    columns={caseColumns}
+                    enable-infinite-loading
+                    onloadmore={loadMoreData}>
+                </lightning-datatable>
+            </div>
+        </lightning-tab>
+
+        <!-- Installations Tab -->
+        <lightning-tab label="Installations" onactive={handleTabActive} data-id="Installation__c">
+            <div style="height: 200px;">
+                <lightning-datatable
+                    data-id="Installation__c"
+                    key-field="Id"
+                    data={relatedRecords}
+                    columns={installColumns}
+                    enable-infinite-loading
+                    onloadmore={loadMoreData}>
+                </lightning-datatable>
+            </div>
+        </lightning-tab>
+    </lightning-tabset>
+    </lightning-card>
+</template>
