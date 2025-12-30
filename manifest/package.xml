@@ -1,36 +1,61 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- Apex Classes -->
     <types>
-        <members>*</members>
+        <members>SmartDealController</members>
+        <members>WrappersUtil</members>
+        <members>ExternalPricingService</members>
+        <members>SmartDealControllerTest</members>
         <name>ApexClass</name>
     </types>
+
+    <!-- Lightning Web Component -->
     <types>
-        <members>*</members>
-        <name>ApexComponent</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexTestSuite</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>AuraDefinitionBundle</name>
-    </types>
-    <types>
-        <members>*</members>
+        <members>smartDealPack</members>
         <name>LightningComponentBundle</name>
     </types>
+    
+
+    <!-- Custom Metadata Type -->
     <types>
-        <members>*</members>
-        <name>StaticResource</name>
+        <members>External_API_Config__mdt</members>
+        <name>CustomMetadata</name>
     </types>
+
+    <!-- Custom Metadata Record -->
+    <types>
+        <members>External_API_Config__mdt.Default</members>
+        <name>CustomMetadata</name>
+    </types>
+
+    <!-- Custom Object -->
+    <types>
+        <members>Installation__c</members>
+        <name>CustomObject</name>
+    </types>
+
+    <!-- Opportunity Custom Fields -->
+    <types>
+        <members>Opportunity.Deal_Health_Score__c</members>
+        <members>Opportunity.External_Pricing_Last_Run__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!-- OpportunityLineItem Custom Fields -->
+    <types>
+        <members>OpportunityLineItem.External_Unit_Price__c</members>
+        <members>OpportunityLineItem.Is_In_External_Stock__c</members>
+        <members>OpportunityLineItem.External_Price_Last_Checked__c</members>
+        <name>CustomField</name>
+    </types>
+
+    <!-- Installation__c Fields -->
+    <types>
+        <members>Installation__c.Opportunity__c</members>
+        <members>Installation__c.Status__c</members>
+        <members>Installation__c.Installation_Date__c</members>
+        <name>CustomField</name>
+    </types>
+
     <version>65.0</version>
 </Package>
